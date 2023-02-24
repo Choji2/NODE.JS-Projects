@@ -100,7 +100,7 @@ async function scrapeLexmark(dbJSON) {
 
 obj = {
   //correct
-  HOSTNAME: "10.132.28.19",
+  HOSTNAME: "10.132.28.179",
   HMA_QUE: "DNM",
   LOCATION: "DNM",
   MANUFACTOR: "LEXMARK",
