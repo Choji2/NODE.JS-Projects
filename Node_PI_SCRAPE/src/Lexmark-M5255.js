@@ -1,5 +1,6 @@
 const puppeteer = require("puppeteer");
 
+let date = new Date();
 //This function will return a JSON object for a Lexmark printer.
 async function scrapeLexmark(dbJSON) {
   try {
@@ -58,15 +59,33 @@ async function scrapeLexmark(dbJSON) {
     element = await page.waitForXPath(
       "/html/body/div[2]/div[3]/ul/ul/li[2]/div/div[1]/span[2]"
     );
+
     var status = await page.evaluate((element) => element.textContent, element);
     await browser.close();
+    console.log(
+      "\x1b[32m",
+      date.getDate() +
+        "/" +
+        date.getMonth() +
+        "/" +
+        date.getFullYear() +
+        " " +
+        date.getHours() +
+        ":" +
+        date.getMinutes() +
+        ":" +
+        date.getSeconds()
+    );
+    console.log(
+      "Sending JSON for HOST: " +
+        dbJSON.HOSTNAME +
+        "| MODEL: " +
+        dbJSON.MODEL +
+        "\n\n"
+    );
     return {
       HOSTNAME: dbJSON.HOSTNAME,
-      HMA_QUE: dbJSON.HMA_QUE,
-      LOCATION: dbJSON.LOCATION,
-      MANUFACTOR: dbJSON.MANUFACTOR,
       MODEL: dbJSON.MODEL,
-      TYPE: dbJSON.TYPE,
       ONLINE: online,
       STATUS: status,
       WARNING: warning,
@@ -78,13 +97,26 @@ async function scrapeLexmark(dbJSON) {
   } catch (error) {
     const browser = await puppeteer.launch({});
     await browser.close();
-
+    console.log(
+      "\x1b[32m",
+      date.getDate() +
+        "/" +
+        date.getMonth() +
+        "/" +
+        date.getFullYear() +
+        " " +
+        date.getHours() +
+        ":" +
+        date.getMinutes() +
+        ":" +
+        date.getSeconds()
+    );
+    console.log(
+      "Sending JSON for HOST: " + dbJSON.HOSTNAME + "| MODEL: " + dbJSON.MODEL
+    );
     return {
       HOSTNAME: dbJSON.HOSTNAME,
-      HMA_QUE: dbJSON.HMA_QUE,
-      LOCATION: dbJSON.LOCATION,
-      MANUFACTOR: dbJSON.MANUFACTOR,
-      TYPE: dbJSON.TYPE,
+      MODEL: dbJSON.MODEL,
       ONLINE: false,
       STATUS: "N/A",
       WARNING: "N/A",
@@ -95,23 +127,18 @@ async function scrapeLexmark(dbJSON) {
     };
   }
 }
-
-//For testing
-
-obj = {
-  //correct
-  HOSTNAME: "10.132.2.89",
-  HMA_QUE: "DNM",
-  LOCATION: "DNM",
-  MANUFACTOR: "LEXMARK",
-  MODEL: "HMM",
-  TYPE: "PROD",
-};
-
-async function print() {
-  obj2 = await scrapeLexmark(obj);
-  console.log(obj2);
-  await process.exit();
-}
-
-print();
+/////////////////////////////For testing
+//
+//  obj = {
+//
+//    HOSTNAME: "10.132.44.201",
+//    MODEL: "HMM",
+//  };
+//
+//  async function print() {
+//    obj2 = await scrapeLexmark(obj);
+//    console.log(obj2);
+//    await process.exit();
+//  }
+////////////////////////////////////////
+module.exports = { scrapeLexmark };
