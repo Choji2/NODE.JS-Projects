@@ -11,6 +11,7 @@ app.use(bodyParse.urlencoded({ extended: false }));
 app.use("/printer", printerRoutes);
 
 app.use("/", (req, res, next) => {
+  var date = new Date();
   console.log(
     "\x1b[33m",
     "\n" +

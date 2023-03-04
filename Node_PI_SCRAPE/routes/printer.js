@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router();
 const path = require("path");
 
-var date = new Date();
-
 const lex = require("../src/Lexmark-M5255");
 
 router.get("/", (req, res, next) => {
@@ -28,6 +26,7 @@ router.get("/", (req, res, next) => {
 });
 
 router.get("/hostname/:hostname/model/M5255", async (req, res, next) => {
+  var date = new Date();
   console.log(
     "\x1b[33m",
     "\n" +

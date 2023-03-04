@@ -1,6 +1,5 @@
 const puppeteer = require("puppeteer");
 
-let date = new Date();
 //This function will return a JSON object for a Lexmark printer.
 async function scrapeLexmark(dbJSON) {
   try {
@@ -62,6 +61,7 @@ async function scrapeLexmark(dbJSON) {
 
     var status = await page.evaluate((element) => element.textContent, element);
     await browser.close();
+    let date = new Date();
     console.log(
       "\x1b[32m",
       date.getDate() +
@@ -90,13 +90,14 @@ async function scrapeLexmark(dbJSON) {
       STATUS: status,
       WARNING: warning,
       MESSAGES: messages,
-      INK_LEVEL: inkLevel,
-      IMAGING: imagingUnit,
-      Maint_KIT: mainKit,
+      INK_LEVEL: parseInt(inkLevel),
+      IMAGING: parseInt(imagingUnit),
+      MAINT_KIT: parseInt(mainKit),
     };
   } catch (error) {
     const browser = await puppeteer.launch({});
     await browser.close();
+    let date = new Date();
     console.log(
       "\x1b[32m",
       date.getDate() +
@@ -123,7 +124,7 @@ async function scrapeLexmark(dbJSON) {
       MESSAGES: "N/A",
       INK_LEVEL: "N/A",
       IMAGING: "N/A",
-      Maint_KIT: "N/A",
+      MAINT_KIT: "N/A",
     };
   }
 }
